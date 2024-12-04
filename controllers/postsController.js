@@ -10,19 +10,16 @@ const index = (req, res) => {
     // res.json(result)
     const queryString = req.query;
     let filteredPostsList = postsList;
-    if(queryString.tags===undefined) {
-        res.sendStatus(404);
-        res.json({
-            error:true,
-            message: 'Not Found'
-        })
-    } else {
+    if(queryString.tags!==undefined) {
         filteredPostsList = postsList.filter((curpost) => curpost.tags.includes(queryString.tags))
         const result = {
             posts: filteredPostsList,
             count:filteredPostsList.length
         }
         res.json(result)
+    } else {
+        res.json(postsList)
+        
     }  
 }
 
