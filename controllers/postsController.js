@@ -1,20 +1,44 @@
 const postsList = require("../data/posts")
 
 
-//Index - get
+//Index - get - 
 const index = (req, res) => {
-    const result = {
-        data: postsList,
-        count: postsList.length
-    }
-    res.json(result)
+    // const result = {
+    //     data: postsList,
+    //     count: postsList.length
+    // }
+    // res.json(result)
+    const queryString = req.query;
+    let filteredPostsList = postsList;
+    if(queryString.tags===undefined) {
+        res.sendStatus(404);
+        res.json({
+            error:true,
+            message: 'Not Found'
+        })
+    } else {
+        filteredPostsList = postsList.filter((curpost) => curpost.tags.includes(queryString.tags))
+        const result = {
+            posts: filteredPostsList,
+            count:filteredPostsList.length
+        }
+        res.json(result)
+    }  
 }
 
 //Show - get
 const show = (req, res) => {
     const postId = parseInt(req.params.id);
     const singlePost = postsList.find((curpost) => curpost.id === postId);
+    if(singlePost===undefined){
+        res.sendStatus(404);
+        res.json({
+            error:true,
+            messages:"Post Not Found"
+        })
+    } else {
     res.json(singlePost);
+}
 }
 
 //Create - post
@@ -49,7 +73,6 @@ const destroy = (req, res) => {
     postsList.splice(postToCancelIndex, 1)
     console.log(postsList);
     res.sendStatus(204);
-
 }
 }
 
