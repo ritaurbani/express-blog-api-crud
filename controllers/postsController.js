@@ -36,8 +36,21 @@ const modify = (req, res) => {
 
 //Destroy - delete
 const destroy = (req, res) => {
-    const postId = req.params.id;
-    res.json("qui elimino il post id" + postId)
+    const postId = parseInt(req.params.id);
+    const postToCancelIndex= postsList.findIndex((curPost)=>curPost.id === postId)
+    //controllo
+    if(postToCancelIndex===-1){
+        res.sendStatus(404);
+        res.json({
+            error:true,
+            message:"Not Found"
+        })
+    } else {
+    postsList.splice(postToCancelIndex, 1)
+    console.log(postsList);
+    res.sendStatus(204);
+
+}
 }
 
 module.exports = {

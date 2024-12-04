@@ -8,9 +8,9 @@ const postsRouter = require("./routers/posts")
 app.use("/posts", postsRouter)
 
 app.get("/", (req, res)=>{
-    res.send("Hello")
+    res.send("Hello");
 })
 
 app.listen(port, ()=>{
-    res.send("Il server e'partito")
+    console.log("Il server e'partito");
 })
