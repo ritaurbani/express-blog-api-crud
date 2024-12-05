@@ -50,8 +50,27 @@ const create = (req, res) => {
 
 //Update - put
 const update = (req, res) => {
-    const postId = req.params.id;
-    res.json("qui aggiorno tutti i dati del post id" + postId)
+    //recupero il parametro id del post da aggiornare e lo converto in numero
+    const postId = parseInt(req.params.id);
+    //uso find per recuperare post to modify
+    const postToUpdate = postsList.find((curPost)=>curPost.id===postId)
+    //aggiorno post con dati ricevuti nel body della richiesta
+    postToUpdate.titolo = req.body.titolo;
+    postToUpdate.contenuto = req.body.contenuto;
+    postToUpdate.tags = req.body.tags;
+    
+   //restituisco pizza aggiornata
+    res.json(postToUpdate)
+}
+
+const update = (req, res) => {
+    const postId = parseInt(req.params.id);
+    const postToUpdate = req.body;
+    const indexToUpdate = postsList.findIndex((curPost) => curPost.id === postId);
+    postToUpdate.id = postId;//non lo assegno sopra?
+    postsList[indexToUpdate] = postToUpdate
+
+    res.json(postToUpdate)
 }
 
 //Modify - patch
