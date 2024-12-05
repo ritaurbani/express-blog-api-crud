@@ -54,6 +54,12 @@ const update = (req, res) => {
     const postId = parseInt(req.params.id);
     //uso find per recuperare post to modify
     const postToUpdate = postsList.find((curPost)=>curPost.id===postId)
+    if(postToUpdate===undefined) {
+        res.status(404);
+        res.json({
+            error:"Not Found"
+        })
+    } 
     //aggiorno post con dati ricevuti nel body della richiesta
     postToUpdate.titolo = req.body.titolo;
     postToUpdate.contenuto = req.body.contenuto;
@@ -63,7 +69,7 @@ const update = (req, res) => {
     res.json(postToUpdate)
 }
 
-const update = (req, res) => {
+const update1 = (req, res) => {
     const postId = parseInt(req.params.id);
     const postToUpdate = req.body;
     const indexToUpdate = postsList.findIndex((curPost) => curPost.id === postId);
