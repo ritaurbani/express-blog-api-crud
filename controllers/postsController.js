@@ -3,11 +3,6 @@ const postsList = require("../data/posts")
 
 //Index - get - 
 const index = (req, res) => {
-    // const result = {
-    //     data: postsList,
-    //     count: postsList.length
-    // }
-    // res.json(result)
     const queryString = req.query;
     let filteredPostsList = postsList;
     if(queryString.tags!==undefined) {
@@ -18,8 +13,7 @@ const index = (req, res) => {
         }
         res.json(result)
     } else {
-        res.json(postsList)
-        
+        res.json(postsList)  
     }  
 }
 
@@ -40,7 +34,18 @@ const show = (req, res) => {
 
 //Create - post
 const create = (req, res) => {
-    res.json("qui aggiungo un nuovo post")
+    console.log(req, res);
+
+    const newPost = req.body;
+
+    console.log(newPost);
+
+    const lastItemIndex = postsList.length -1;
+    const lastItem = postsList[lastItemIndex];
+    newPost.id = lastItem.id +1
+    postsList.push(newPost);
+
+    res.json(newPost);
 }
 
 //Update - put
