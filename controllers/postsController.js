@@ -23,13 +23,6 @@ const index = (req, res) => {
 const show = (req, res) => {
     const postId = parseInt(req.params.id);
     const singlePost = postsList.find((curpost) => curpost.id === postId);
-    // if(singlePost===undefined){
-    //     res.sendStatus(404);
-    //     res.json({
-    //         error:true,
-    //         messages:"Post Not Found"
-    //     })
-    // } else {
     res.json(singlePost);
 }
 
@@ -57,12 +50,6 @@ const update = (req, res) => {
     //uso find per recuperare post to modify
     const postToUpdate = postsList.find((curPost)=>curPost.id===postId)
     console.log(postToUpdate);
-    if(postToUpdate===undefined) {
-        res.status(404);
-        res.json({
-            error:"Not Found"
-        })
-    } 
     //aggiorno post con dati ricevuti nel body della richiesta
     postToUpdate.titolo = req.body.titolo;
     postToUpdate.contenuto = req.body.contenuto;
@@ -93,17 +80,9 @@ const destroy = (req, res) => {
     const postId = parseInt(req.params.id);
     const postToCancelIndex= postsList.findIndex((curPost)=>curPost.id === postId)
     //controllo
-    if(postToCancelIndex===-1){
-        res.sendStatus(404);
-        res.json({
-            error:true,
-            message:"Not Found"
-        })
-    } else {
     postsList.splice(postToCancelIndex, 1)
     console.log(postsList);
     res.sendStatus(204);
-}
 }
 
 module.exports = {

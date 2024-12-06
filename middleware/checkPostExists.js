@@ -11,7 +11,7 @@ const checkPostExists = (req, res, next) => {
         res.statusCode = 404
         res.json({
             error: true,
-            message: "Not found"
+            message: "Not found at all"
         })
     }
 }
