@@ -1,12 +1,14 @@
 const postsList = require("../data/posts")
+const checkPostExists = require("../middleware/checkPostExists")
 
 
 //Index - get - 
 const index = (req, res) => {
-    const queryString = req.query;
-    let filteredPostsList = postsList;
-    if(queryString.tags!==undefined) {
-        filteredPostsList = postsList.filter((curpost) => curpost.tags.includes(queryString.tags))
+    // const queryString = req.query;
+    // let filteredPostsList = postsList;
+    //SE C E FILTRO...
+    if (req.query.tags !==undefined) {
+       let filteredPostsList = postsList.filter((curpost) => curpost.tags.includes(req.query.tags))//questo preleva valore di tag
         const result = {
             posts: filteredPostsList,
             count:filteredPostsList.length
@@ -21,39 +23,40 @@ const index = (req, res) => {
 const show = (req, res) => {
     const postId = parseInt(req.params.id);
     const singlePost = postsList.find((curpost) => curpost.id === postId);
-    if(singlePost===undefined){
-        res.sendStatus(404);
-        res.json({
-            error:true,
-            messages:"Post Not Found"
-        })
-    } else {
+    // if(singlePost===undefined){
+    //     res.sendStatus(404);
+    //     res.json({
+    //         error:true,
+    //         messages:"Post Not Found"
+    //     })
+    // } else {
     res.json(singlePost);
 }
-}
+
 
 //Create - post
 const create = (req, res) => {
     console.log(req, res);
-
+    //creiamo nuova pizza con dati ricevuti ( id:newId, name:req.body.name; img:req.body.img)
     const newPost = req.body;
-
     console.log(newPost);
-
+    //creiamo nuovo id - const newpostId = postsList[postsList.length -1].id +1;
     const lastItemIndex = postsList.length -1;
     const lastItem = postsList[lastItemIndex];
     newPost.id = lastItem.id +1
+    //Aggiungo nuovo post alla lista
     postsList.push(newPost);
 
     res.json(newPost);
 }
 
-//Update - put
+//Update - put  - parametro dinamico per identificare quale elemento modificare
 const update = (req, res) => {
     //recupero il parametro id del post da aggiornare e lo converto in numero
     const postId = parseInt(req.params.id);
     //uso find per recuperare post to modify
     const postToUpdate = postsList.find((curPost)=>curPost.id===postId)
+    console.log(postToUpdate);
     if(postToUpdate===undefined) {
         res.status(404);
         res.json({
