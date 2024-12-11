@@ -7,12 +7,13 @@ const index = (req, res) => {
     // const queryString = req.query;
     // let filteredPostsList = postsList;
     //SE C E FILTRO...
+    let filteredPostsList = postsList
     if (req.query.tags !==undefined) {
-       let filteredPostsList = postsList.filter((curpost) => curpost.tags.includes(req.query.tags))//questo preleva valore di tag
+       filteredPostsList = postsList.filter((curpost) => curpost.tags.includes(req.query.tags))//questo preleva valore di tag
         const result = {
             posts: filteredPostsList,
             count:filteredPostsList.length
-        }
+        };
         res.json(result)
     } else {
         res.json(postsList)  
